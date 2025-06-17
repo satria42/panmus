@@ -1,21 +1,24 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
-# Install dependencies system
-RUN apt-get update && \
-    apt-get install -y tesseract-ocr libtesseract-dev libleptonica-dev && \
-    apt-get clean
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    libtesseract-dev \
+    libleptonica-dev \
+    poppler-utils \
+    && apt-get clean
 
-# Set workdir
+# Set working dir
 WORKDIR /app
 
-# Copy all
-COPY . /app
-
-# Install python deps
+# Copy requirements and app
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port
-EXPOSE 5000
+COPY app.py .
 
-# Command to run
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Default port
+ENV PORT=5000
+
+# Run using gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
