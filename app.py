@@ -1,9 +1,8 @@
 from flask import Flask, request, Response
-from PIL import Image
 import pytesseract
+from PIL import Image
 import io
 import json
-import os
 
 app = Flask(__name__)
 
@@ -33,7 +32,3 @@ def ocr():
             status=500,
             mimetype='application/json'
         )
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
