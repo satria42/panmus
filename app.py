@@ -19,7 +19,7 @@ def ocr():
     try:
         file = request.files['image']
         image = Image.open(file.stream)
-        text = pytesseract.image_to_string(image)
+        text = pytesseract.image_to_string(image, lang='ind')
 
         result = {'text': text.strip()}
         return Response(
