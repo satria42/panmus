@@ -1,7 +1,8 @@
 services:
   - type: web
-    name: ocr-api
-    env: python
-    plan: free
-    buildCommand: ""
+    name: panmus-ocr
+    runtime: python
+    buildCommand: |
+      apt-get update && apt-get install -y tesseract-ocr
+      pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
