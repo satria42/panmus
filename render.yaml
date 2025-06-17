@@ -1,8 +1,11 @@
 services:
   - type: web
-    name: panmus-ocr
-    runtime: python
-    buildCommand: |
-      apt-get update && apt-get install -y tesseract-ocr
-      pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    name: flask-ocr-api
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app -b 0.0.0.0:10000
+    envVars:
+      - key: PORT
+        value: 10000
+    plan: free
+    autoDeploy: true
